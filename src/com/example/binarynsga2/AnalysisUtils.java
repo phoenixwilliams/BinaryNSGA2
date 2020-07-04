@@ -22,5 +22,15 @@ public final class AnalysisUtils {
         }
 
     }
+    public static ArrayList<ArrayList<Double>> getFitnessPoints(ArrayList<Solution> population)
+    {
+        ArrayList<ArrayList<Double>> points = new ArrayList<>();
+
+        for (Solution sol:population)
+        {
+            points.add(sol.getFitness());
+        }
+        return  points;
+    }
 
 }

@@ -48,6 +48,15 @@ public final class NSGA2Utils {
             sol.setFitness(ProblemUtils.ZDT1(sol.getDecimalVariables()));
         }
     }
+
+    public static void evaluatePopulationParetoZDT1(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.paretoZDT1(sol.getDecimalVariables()));
+        }
+    }
+
     public static void evaluatePopulationZDT2(ArrayList<Solution> population)
     {
         for (Solution sol:population)
