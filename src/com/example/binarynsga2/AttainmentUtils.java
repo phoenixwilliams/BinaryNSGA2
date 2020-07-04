@@ -6,7 +6,6 @@ public final class AttainmentUtils {
 
     public static Double computeHypervolume(ArrayList<ArrayList<Double>> nonDominatedSet, ArrayList<Double> w)
     {
-        System.out.println("CALLED");
         double tempY = w.get(1);
         double hypervolume = 0.0;
         double tempWidth, tempLength =0.0;

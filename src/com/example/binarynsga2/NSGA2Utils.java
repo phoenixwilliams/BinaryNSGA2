@@ -48,6 +48,34 @@ public final class NSGA2Utils {
             sol.setFitness(ProblemUtils.ZDT1(sol.getDecimalVariables()));
         }
     }
+    public static void evaluatePopulationZDT2(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.ZDT2(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationZDT3(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.ZDT3(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationZDT4(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.ZDT4(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationZDT6(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.ZDT6(sol.getDecimalVariables()));
+        }
+    }
     public static void SetPopulationCrowdingDistance(ArrayList<Solution> population, int objectives)
     {
         double fmin,fmax,distanceDenom,distanceNum;
