@@ -6,14 +6,17 @@ import java.util.ArrayList;
 
 public final class AnalysisUtils {
 
-    public static void generateDatFile(ArrayList<Solution> population, String filename)
+    public static void generateDatFile(ArrayList<Solution> population, String filename, int numObjectives)
     {
         try{
             FileWriter myWriter = new FileWriter(filename+".dat");
 
             for (Solution sol:population)
             {
-                myWriter.write(Double.toString(sol.getFitness().get(0))+" "+ Double.toString(sol.getFitness().get(1))+"\n");
+                for (int i=0; i<numObjectives;i++) {
+                    myWriter.write(Double.toString(sol.getFitness().get(i)) + " ");
+                }
+                myWriter.write("\n");
             }
             myWriter.close();
 

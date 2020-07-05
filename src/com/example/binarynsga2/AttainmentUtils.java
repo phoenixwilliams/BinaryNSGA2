@@ -22,8 +22,6 @@ public final class AttainmentUtils {
             }
 
         }
-
-
         return hypervolume;
     }
 
@@ -67,7 +65,7 @@ public final class AttainmentUtils {
             }
             dist+=closestDist;
         }
-        return dist/paretoPoints.size();
+        return dist/(double)paretoPoints.size();
     }
 
     public static Double euclideanDist(ArrayList<Double> a, ArrayList<Double> b)

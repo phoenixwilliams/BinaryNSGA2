@@ -106,7 +106,7 @@ public class ProblemUtils {
         double sum =0;
         for (int i=1; i<decisionVariables.size(); i++)
         {
-            sum += (Math.pow(decisionVariables.get(i),2.0) - 10.0*Math.cos(4*Math.PI*decisionVariables.get(i)));
+            sum += (Math.pow(decisionVariables.get(i),2.0) - 10.0*Math.cos(4.0*Math.PI*decisionVariables.get(i)));
         }
         double g = 1.0 + 10.0*(decisionVariables.size()-1)+sum;
         double h = 1.0 - Math.sqrt(f1/g);
@@ -121,7 +121,7 @@ public class ProblemUtils {
         double sum =0;
         for (int i=1; i<decisionVariables.size(); i++)
         {
-            sum += (Math.pow(decisionVariables.get(i),2.0) - 10.0*Math.cos(4*Math.PI*decisionVariables.get(i)));
+            sum += (Math.pow(decisionVariables.get(i),2.0) - 10.0*Math.cos(4.0*Math.PI*decisionVariables.get(i)));
         }
         double g = 1.0;
         double h = 1.0 - Math.sqrt(f1/g);
@@ -164,6 +164,39 @@ public class ProblemUtils {
 
 
         return new ArrayList<>(Arrays.asList(f1,f2));
+    }
+
+    public static ArrayList<Double> DTLZ1(ArrayList<Double> decisionVariables, int numObjectives)
+    {
+        int k=0, temp=0;
+        double g= 0.0;
+        ArrayList<Double> fitness = new ArrayList<>();
+
+        k = decisionVariables.size() - numObjectives + 1;
+        for (int i=0; i<decisionVariables.size();i++)
+        {
+            g += Math.pow(decisionVariables.get(i)-0.5, 2)-Math.cos(20.0*(decisionVariables.get(i)-0.5));
+        }
+        g = 100 * (k+g);
+
+        for (int i=0;i<numObjectives;i++)
+        {
+            fitness.add((1.0+g)*0.5);
+        }
+
+        for (int i=0; i<numObjectives; i++)
+        {
+            for (int j=0;j<numObjectives-(i+1);j++)
+            {
+                fitness.set(i, fitness.get(i)*decisionVariables.get(j));
+            }
+            if (i!=0)
+            {
+                temp = numObjectives - (i+1);
+                fitness.set(i, fitness.get(i)*(1-decisionVariables.get(temp)));
+            }
+        }
+        return fitness;
     }
 
 

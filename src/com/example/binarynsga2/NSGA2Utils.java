@@ -15,8 +15,13 @@ public final class NSGA2Utils {
 
         for (int i=0;i<encodingLen;i++)
         {
-            variable = rand.nextInt(2);
-            solution.add(variable);
+            if (rand.nextDouble()>0.5)
+            {
+                solution.add(1);
+            }else{
+                solution.add(0);
+            }
+
 
         }
         return solution;
@@ -64,11 +69,25 @@ public final class NSGA2Utils {
             sol.setFitness(ProblemUtils.ZDT2(sol.getDecimalVariables()));
         }
     }
+    public static void evaluatePopulationParetoZDT2(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.paretoZDT2(sol.getDecimalVariables()));
+        }
+    }
     public static void evaluatePopulationZDT3(ArrayList<Solution> population)
     {
         for (Solution sol:population)
         {
             sol.setFitness(ProblemUtils.ZDT3(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationParetoZDT3(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.paretoZDT3(sol.getDecimalVariables()));
         }
     }
     public static void evaluatePopulationZDT4(ArrayList<Solution> population)
@@ -78,11 +97,32 @@ public final class NSGA2Utils {
             sol.setFitness(ProblemUtils.ZDT4(sol.getDecimalVariables()));
         }
     }
+    public static void evaluatePopulationParetoZDT4(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.paretoZDT4(sol.getDecimalVariables()));
+        }
+    }
     public static void evaluatePopulationZDT6(ArrayList<Solution> population)
     {
         for (Solution sol:population)
         {
             sol.setFitness(ProblemUtils.ZDT6(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationParetoZDT6(ArrayList<Solution> population)
+    {
+        for (Solution sol:population)
+        {
+            sol.setFitness(ProblemUtils.paretoZDT6(sol.getDecimalVariables()));
+        }
+    }
+    public static void evaluatePopulationDTLZ1(ArrayList<Solution> population, int numObjectives)
+    {
+        for (Solution sol: population)
+        {
+            sol.setFitness(ProblemUtils.DTLZ1(sol.getDecimalVariables(), numObjectives));
         }
     }
     public static void SetPopulationCrowdingDistance(ArrayList<Solution> population, int objectives)
@@ -113,6 +153,7 @@ public final class NSGA2Utils {
         }
     }
     public static boolean dominatesMinOpt(ArrayList<Double> fitnessA, ArrayList<Double> fitnessB)
+            //if A dominates true, else false
     {
         int equalLess = 0;
         int explicitLess = 0;
@@ -170,7 +211,7 @@ public final class NSGA2Utils {
         return solutionObject;
     }
 
-    public static ArrayList<ArrayList<Integer>> solutionUniformCrossover(Solution parent1, Solution parent2, int variableEncodingLength,double repProb)
+    public static ArrayList<ArrayList<Integer>> solutionUniformCrossover(Solution parent1, Solution parent2,double repProb)
     {
         Random rand = new Random();
 
@@ -178,11 +219,12 @@ public final class NSGA2Utils {
         ArrayList<Integer> offspring1;
         ArrayList<Integer> offspring2;
 
-        if (choice < repProb){
+        if (choice > repProb){
             ArrayList<ArrayList<Integer>> offsprings = uniformCrossover(parent1.getCombinedGenotype(), parent2.getCombinedGenotype());
             return offsprings;
 
         } else{
+            //System.out.println("REPRODUCTION "+Double.toString(repProb)+":"+Double.toString(choice));
             offspring1 = parent1.getCombinedGenotype();
             offspring2 = parent2.getCombinedGenotype();
 
@@ -201,7 +243,7 @@ public final class NSGA2Utils {
 
         for (int i=0;i<parent1.size();i++){
             choice = rand.nextDouble();
-            if (choice>0.5)
+            if (choice>=0.5)
             {
                 offspring1.add(parent1.get(i));
                 offspring2.add(parent2.get(i));
@@ -241,8 +283,9 @@ public final class NSGA2Utils {
         Solution checkedSol = population.get(solution);
         for (int i=0; i<population.size();i++)
         {
-            if (i!=solution && dominatesMinOpt(population.get(i).getFitness(), checkedSol.getFitness()))
+            if (i!=solution && (dominatesMinOpt(population.get(i).getFitness(), checkedSol.getFitness())==true))
             {
+                //System.out.println("This:"+population.get(i).getFitness().toString()+"dominates this: "+checkedSol.getFitness().toString());
                 dominatedCount+=1;
             }
         }
@@ -267,7 +310,6 @@ public final class NSGA2Utils {
 
             //get current front
             currentFront = new ArrayList<>();
-
             for (int i=0; i<combinedPopulation.size(); i++)
             {
                 if (dominatedCounts.get(i)==0)
